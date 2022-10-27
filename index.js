@@ -53,20 +53,26 @@ mongoose
   .then(() => {
     // Run your code here, after you have insured that the connection was made
     //createOne(firstRecipe);
-    createMany(allRecipes)
-      .then(() => {
-        Recipe.findOneAndUpdate(
-          { title: "Rigatoni alla Genovese" },
-          { duration: 100 }
-        ).then(() => {
+    createMany(allRecipes).then(() => {
+      Recipe.findOneAndUpdate(
+        { title: "Rigatoni alla Genovese" },
+        { duration: 100 }
+      )
+        .then(() => {
           console.log("Update Successful");
+        })
+        .then(() => {
+          Recipe.deleteOne({ title: "Carrot Cake" })
+            .then(() => {
+              console.log("Removal Successful");
+            })
+            .then(() => {
+              mongoose.disconnect().then(() => {
+                console.log("Database disconnected");
+              });
+            });
         });
-      })
-      .then(() => {
-        Recipe.deleteOne({ title: "Carrot Cake" }).then(() => {
-          console.log("Removal Successful");
-        });
-      });
+    });
   })
 
   .catch((error) => {
