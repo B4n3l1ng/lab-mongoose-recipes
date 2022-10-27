@@ -31,6 +31,16 @@ async function createOne(recipe) {
   const { title } = added;
   console.log(title);
 }
+async function createMany(array) {
+  const added = await Recipe.insertMany(array);
+  added.forEach((element) => {
+    const { title } = element;
+    console.log(title);
+  });
+}
+
+const allRecipes = require("./data.json");
+//console.log(allRecipes);
 
 // Connection to the database "recipe-app"
 mongoose
@@ -42,7 +52,8 @@ mongoose
   })
   .then(() => {
     // Run your code here, after you have insured that the connection was made
-    createOne(firstRecipe);
+    //createOne(firstRecipe);
+    createMany(allRecipes);
   })
   .catch((error) => {
     console.error("Error connecting to the database", error);
